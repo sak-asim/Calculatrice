@@ -20,8 +20,8 @@ private:
 
 private slots:
     void NumPresse();
-    //void MathBoutonPresse();
-    //void BoutonEgal();
-    //void ChangeNumSigne();
+    void MathBoutonPresse();
+    void BoutonEgalPresse();
+    void ChangeNumSigne();
 };
 #endif // CALCULATRICE_H

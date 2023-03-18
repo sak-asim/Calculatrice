@@ -20,6 +20,13 @@ Calculatrice::Calculatrice(QWidget *parent)
         numBoutons[i] = Calculatrice::findChild<QPushButton *>(nomBouton);
         connect(numBoutons[i], SIGNAL(released()), this, SLOT(NumPresse()));
     }
+    connect(ui->Additionner, SIGNAL(released()), this, SLOT(MathBoutonPresse()));
+    connect(ui->Soustraire, SIGNAL(released()), this, SLOT(MathBoutonPresse()));
+    connect(ui->Multiplier, SIGNAL(released()), this, SLOT(MathBoutonPresse()));
+    connect(ui->Diviser, SIGNAL(released()), this, SLOT(MathBoutonPresse()));
+    connect(ui->Egal, SIGNAL(released()), this, SLOT(BoutonEgalPresse()));
+    connect(ui->ChangeSigne, SIGNAL(released()), this, SLOT(ChangeNumSigne()));
+
 }
 
 Calculatrice::~Calculatrice()
@@ -59,6 +66,42 @@ void Calculatrice::MathBoutonPresse(){
         soustractionDeclanche = true;
     }
     ui->Affichage->setText("");
-
 }
+
+void Calculatrice::BoutonEgalPresse(){
+    double solution = 0.0;
+    QString valAffichage = ui->Affichage->text();
+    double dblValAffichage = valAffichage.toDouble();
+    if(aditionDeclanche || soustractionDeclanche || multiplicationDeclanche || divisionDeclanche){
+        if(aditionDeclanche){
+            solution = valeurCalcul + dblValAffichage;
+        }else if(soustractionDeclanche){
+            solution = valeurCalcul - dblValAffichage;
+        }else if(multiplicationDeclanche){
+            solution = valeurCalcul * dblValAffichage;
+        }else{
+            solution = valeurCalcul /dblValAffichage;
+        }
+    }
+    ui->Affichage->setText(QString::number(solution));
+}
+
+void Calculatrice::ChangeNumSigne(){
+    QString valAffichage = ui->Affichage->text();
+    QRegExp reg("[-]?[0-9]*");
+    if(reg.exactMatch(valAffichage)){
+        double dblValAffichage = valAffichage.toDouble();
+        double dblValAffichageSinge = -1 * dblValAffichage;
+        ui->Affichage->setText(QString::number(dblValAffichageSinge));
+    }
+}
+
+
+
+
+
+
+
+
+
 
