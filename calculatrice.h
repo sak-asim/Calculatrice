@@ -17,5 +17,11 @@ public:
 
 private:
     Ui::Calculatrice *ui;
+
+private slots:
+    void NumPresse();
+    void MathBoutonPresse();
+    void BoutonEgal();
+    void ChangeNumSigne();
 };
 #endif // CALCULATRICE_H
