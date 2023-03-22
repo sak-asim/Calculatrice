@@ -1,11 +1,13 @@
 #include "calculatrice.h"
 #include "ui_calculatrice.h"
+#include <cmath>
 
 double valeurCalcul = 0.0;
 bool divisionDeclanche = false;
 bool multiplicationDeclanche = false;
 bool aditionDeclanche = false;
 bool soustractionDeclanche = false;
+bool moduloDeclanche = false;
 
 Calculatrice::Calculatrice(QWidget *parent)
     : QMainWindow(parent)
@@ -25,12 +27,13 @@ Calculatrice::Calculatrice(QWidget *parent)
     connect(ui->Soustraire, SIGNAL(released()), this, SLOT(MathBoutonPresse()));
     connect(ui->Multiplier, SIGNAL(released()), this, SLOT(MathBoutonPresse()));
     connect(ui->Diviser, SIGNAL(released()), this, SLOT(MathBoutonPresse()));
+    connect(ui->Modulo, SIGNAL(released()), this, SLOT(MathBoutonPresse()));
     connect(ui->Egal, SIGNAL(released()), this, SLOT(BoutonEgalPresse()));
     connect(ui->ChangeSigne, SIGNAL(released()), this, SLOT(ChangeNumSigne()));
     connect(ui->Effacer, SIGNAL(released()), this, SLOT(EcranEffacerPresse()));
     connect(ui->Del, SIGNAL(released()), this, SLOT(DelPresse()));
     connect(ui->Carre, SIGNAL(released()), this, SLOT(carrerPresse()));
-
+    connect(ui->Racine, SIGNAL(released()), this, SLOT(RacinePresse()));
 
 }
 
@@ -57,6 +60,7 @@ void Calculatrice::MathBoutonPresse(){
     multiplicationDeclanche = false;
     aditionDeclanche = false;
     soustractionDeclanche = false;
+    moduloDeclanche = false;
     QString valAffichage = ui->Affichage->text();
     valeurCalcul = valAffichage.toDouble();
     QPushButton *bouton = (QPushButton *)sender();
@@ -67,8 +71,10 @@ void Calculatrice::MathBoutonPresse(){
         multiplicationDeclanche = true;
     }else if(QString::compare(valBouton, "+", Qt::CaseInsensitive) == 0){
         aditionDeclanche = true;
-    }else{
+    }else if(QString::compare(valBouton, "-", Qt::CaseInsensitive) == 0){
         soustractionDeclanche = true;
+    }else if(QString::compare(valBouton, "%", Qt::CaseInsensitive) == 0){
+        moduloDeclanche = true;
     }
     ui->Affichage->setText("");
 }
@@ -77,15 +83,17 @@ void Calculatrice::BoutonEgalPresse(){
     double solution = 0.0;
     QString valAffichage = ui->Affichage->text();
     double dblValAffichage = valAffichage.toDouble();
-    if(aditionDeclanche || soustractionDeclanche || multiplicationDeclanche || divisionDeclanche){
+    if(aditionDeclanche || soustractionDeclanche || multiplicationDeclanche || divisionDeclanche || moduloDeclanche){
         if(aditionDeclanche){
             solution = valeurCalcul + dblValAffichage;
         }else if(soustractionDeclanche){
             solution = valeurCalcul - dblValAffichage;
         }else if(multiplicationDeclanche){
             solution = valeurCalcul * dblValAffichage;
-        }else{
-            solution = valeurCalcul /dblValAffichage;
+        }else if(divisionDeclanche){
+            solution = valeurCalcul / dblValAffichage;
+        }else if(moduloDeclanche){
+            solution = fmod(valeurCalcul, dblValAffichage);
         }
     }
     ui->Affichage->setText(QString::number(solution));
@@ -126,25 +134,26 @@ void Calculatrice::EcranEffacerPresse(){
 }
 
 void Calculatrice::DelPresse(){
-    QString val = ui->Affichage->text();
-    ui->Affichage->setText("");
 
-    for(int i=0; i<val.length()-1; i++){
-        ui->Affichage->setText(ui->Affichage->text()+val[i]);
-    }
+    QString val = ui->Affichage->text();
+        val = val.left(val.length() - 1);
+        ui->Affichage->setText(val);
 
 }
 
-
-void Calculatrice::carrerPresse()
-{
+void Calculatrice::carrerPresse(){
     QString valAffichage = ui->Affichage->text();
     double dblValAffichage = valAffichage.toDouble();
-    double result = dblValAffichage * dblValAffichage;
-    ui->Affichage->setText(QString::number(result));
+    double resultat = dblValAffichage * dblValAffichage;
+    ui->Affichage->setText(QString::number(resultat));
 }
 
-
+void Calculatrice::RacinePresse() {
+    QString valAffichage = ui->Affichage->text();
+    double dblValAffichage = valAffichage.toDouble();
+    double resultat = sqrt(dblValAffichage);
+    ui->Affichage->setText(QString::number(resultat));
+}
 
 
 

@@ -27,5 +27,7 @@ private slots:
     void PointPresse();
     void EcranEffacerPresse();
     void carrerPresse();
+    void RacinePresse();
+    //void ModuloPresse();
 };
 #endif // CALCULATRICE_H
