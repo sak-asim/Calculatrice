@@ -20,12 +20,17 @@ Calculatrice::Calculatrice(QWidget *parent)
         numBoutons[i] = Calculatrice::findChild<QPushButton *>(nomBouton);
         connect(numBoutons[i], SIGNAL(released()), this, SLOT(NumPresse()));
     }
+    connect(ui->Point, SIGNAL(released()), this, SLOT(PointPresse()));
     connect(ui->Additionner, SIGNAL(released()), this, SLOT(MathBoutonPresse()));
     connect(ui->Soustraire, SIGNAL(released()), this, SLOT(MathBoutonPresse()));
     connect(ui->Multiplier, SIGNAL(released()), this, SLOT(MathBoutonPresse()));
     connect(ui->Diviser, SIGNAL(released()), this, SLOT(MathBoutonPresse()));
     connect(ui->Egal, SIGNAL(released()), this, SLOT(BoutonEgalPresse()));
     connect(ui->ChangeSigne, SIGNAL(released()), this, SLOT(ChangeNumSigne()));
+    connect(ui->Effacer, SIGNAL(released()), this, SLOT(EcranEffacerPresse()));
+    connect(ui->Del, SIGNAL(released()), this, SLOT(DelPresse()));
+    connect(ui->Carre, SIGNAL(released()), this, SLOT(carrerPresse()));
+
 
 }
 
@@ -96,7 +101,48 @@ void Calculatrice::ChangeNumSigne(){
     }
 }
 
+void Calculatrice::PointPresse(){
+    QPushButton *bouton = (QPushButton *)sender();
+    QString valBouton = bouton->text();
+    QString valAffichage = ui->Affichage->text();
 
+    if(valAffichage.toDouble() == 0 || valAffichage.toDouble() == 0.0){
+        ui->Affichage->setText("Erreur Math");
+    }else{
+        QString newValue = valAffichage + valBouton;
+        double valeur = newValue.toDouble();
+
+        if(!valeur){
+            ui->Affichage->setText("Erreur Math");
+        }else {
+            ui->Affichage->setText(newValue);
+        }
+    }
+
+}
+
+void Calculatrice::EcranEffacerPresse(){
+    ui->Affichage->setText("0");
+}
+
+void Calculatrice::DelPresse(){
+    QString val = ui->Affichage->text();
+    ui->Affichage->setText("");
+
+    for(int i=0; i<val.length()-1; i++){
+        ui->Affichage->setText(ui->Affichage->text()+val[i]);
+    }
+
+}
+
+
+void Calculatrice::carrerPresse()
+{
+    QString valAffichage = ui->Affichage->text();
+    double dblValAffichage = valAffichage.toDouble();
+    double result = dblValAffichage * dblValAffichage;
+    ui->Affichage->setText(QString::number(result));
+}
 
 
 

@@ -23,5 +23,9 @@ private slots:
     void MathBoutonPresse();
     void BoutonEgalPresse();
     void ChangeNumSigne();
+    void DelPresse();
+    void PointPresse();
+    void EcranEffacerPresse();
+    void carrerPresse();
 };
 #endif // CALCULATRICE_H
