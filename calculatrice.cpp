@@ -34,6 +34,8 @@ Calculatrice::Calculatrice(QWidget *parent)
     connect(ui->Del, SIGNAL(released()), this, SLOT(DelPresse()));
     connect(ui->Carre, SIGNAL(released()), this, SLOT(carrerPresse()));
     connect(ui->Racine, SIGNAL(released()), this, SLOT(RacinePresse()));
+    connect(ui->Factorial, SIGNAL(released()), this, SLOT(FactorialPresse()));
+
 
 }
 
@@ -152,6 +154,16 @@ void Calculatrice::RacinePresse() {
     QString valAffichage = ui->Affichage->text();
     double dblValAffichage = valAffichage.toDouble();
     double resultat = sqrt(dblValAffichage);
+    ui->Affichage->setText(QString::number(resultat));
+}
+
+void Calculatrice::FactorialPresse() {
+    QString valAffichage = ui->Affichage->text();
+    int n = valAffichage.toInt();
+    int resultat = 1;
+       for (int i = 1; i <= n; i++) {
+           resultat *= i;
+       }
     ui->Affichage->setText(QString::number(resultat));
 }
 

@@ -28,6 +28,6 @@ private slots:
     void EcranEffacerPresse();
     void carrerPresse();
     void RacinePresse();
-    //void ModuloPresse();
+    void FactorialPresse();
 };
 #endif // CALCULATRICE_H
