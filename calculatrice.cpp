@@ -45,10 +45,11 @@ Calculatrice::~Calculatrice()
 }
 
 void Calculatrice::NumPresse(){
-    QPushButton *bouton = (QPushButton * )sender();
+    QPushButton *bouton = (QPushButton*)sender();
     QString valBouton = bouton->text();
     QString valAffichage = ui->Affichage->text();
-    if((valAffichage.toDouble() == 0) || (valAffichage.toDouble() == 0.0)){
+
+    if(valAffichage == "0" || valAffichage == "0.0"){
         ui->Affichage->setText(valBouton);
     }else {
         QString newVal = valAffichage + valBouton;
@@ -112,23 +113,21 @@ void Calculatrice::ChangeNumSigne(){
 }
 
 void Calculatrice::PointPresse(){
-    QPushButton *bouton = (QPushButton *)sender();
+    QPushButton *bouton = (QPushButton*)sender();
     QString valBouton = bouton->text();
     QString valAffichage = ui->Affichage->text();
 
-    if(valAffichage.toDouble() == 0 || valAffichage.toDouble() == 0.0){
-        ui->Affichage->setText("Erreur Math");
+    // Si la valeur d'affichage est zéro ou zéro décimal
+    if(valAffichage == "0" || valAffichage == "0.0"){
+        ui->Affichage->setText("0.");
+    }
+    // Si la valeur d'affichage est déjà un nombre décimal
+    else if(valAffichage.contains('.')){
+        return;
     }else{
         QString newValue = valAffichage + valBouton;
-        double valeur = newValue.toDouble();
-
-        if(!valeur){
-            ui->Affichage->setText("Erreur Math");
-        }else {
-            ui->Affichage->setText(newValue);
-        }
+        ui->Affichage->setText(newValue);
     }
-
 }
 
 void Calculatrice::EcranEffacerPresse(){
@@ -166,9 +165,4 @@ void Calculatrice::FactorialPresse() {
        }
     ui->Affichage->setText(QString::number(resultat));
 }
-
-
-
-
-
 
