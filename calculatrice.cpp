@@ -70,7 +70,7 @@ void Calculatrice::MathBoutonPresse(){
     QString valBouton = bouton->text();
     if(QString::compare(valBouton, "/", Qt::CaseInsensitive) == 0){
         divisionDeclanche = true;
-    }else if(QString::compare(valBouton, "*", Qt::CaseInsensitive) == 0){
+    }else if(QString::compare(valBouton, "x", Qt::CaseInsensitive) == 0){
         multiplicationDeclanche = true;
     }else if(QString::compare(valBouton, "+", Qt::CaseInsensitive) == 0){
         aditionDeclanche = true;
@@ -159,10 +159,9 @@ void Calculatrice::RacinePresse() {
 void Calculatrice::FactorialPresse() {
     QString valAffichage = ui->Affichage->text();
     int n = valAffichage.toInt();
-    int resultat = 1;
+    double resultat = 1;
        for (int i = 1; i <= n; i++) {
            resultat *= i;
        }
     ui->Affichage->setText(QString::number(resultat));
 }
-
